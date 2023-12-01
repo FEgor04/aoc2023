@@ -46,8 +46,20 @@ fun findSumTask2(str: String): Int {
     return firstDigit * 10 + lastDigit;
 }
 
+fun solveTask1(fileName: String): Int {
+    val lines = readInput("day1/${fileName}")
+    return lines.sumOf { findSumTask1(it) }
+}
+
+fun solveTask2(fileName: String): Int {
+    val lines = readInput("day1/${fileName}")
+    return lines.sumOf { findSumTask2(it) }
+}
+
 fun main() {
-    val lines = readInput("day1/input")
-    val sum = lines.sumOf { findSumTask2(it) }
-    println("Answer is $sum")
+    check(solveTask1("example_1") == 142)
+    check(solveTask2("example_2") == 281)
+
+    println("Answer for task 1 is ${solveTask1("input")}")
+    println("Answer for task 2 is ${solveTask2("input")}")
 }
