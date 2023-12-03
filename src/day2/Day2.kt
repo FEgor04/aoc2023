@@ -38,12 +38,8 @@ fun maxByColor(id: Int, line: String): Map<String, Int> {
             val regexRes = regex.find(numberAndColor)!!
             val (numberStr, color) = regexRes.destructured;
             val number = numberStr.toInt();
-            if(maxValues.containsKey(color)) {
-                maxValues[color] = max(maxValues[color]!!, number);
-            } else {
-                maxValues[color] = number;
-            }
-
+            val currentMax = maxValues.getOrDefault(color, number)
+            maxValues[color] = max(currentMax, number);
         }
     }
     return maxValues;
@@ -51,14 +47,16 @@ fun maxByColor(id: Int, line: String): Map<String, Int> {
 
 fun solveTask1(fileName: String): Int {
     val lines = readInput("day2/${fileName}")
-    return lines.mapIndexed { index, s -> Pair(index, checkIsGood(index, s)) }
+    return lines
+        .mapIndexed { index, s -> Pair(index, checkIsGood(index, s)) }
         .filter { it.second }
         .sumOf { it.first + 1 }
 }
 
 fun solveTask2(fileName: String): Int {
     val lines = readInput("day2/${fileName}")
-    return lines.mapIndexed { index, s -> maxByColor(index, s) }
+    return lines
+        .mapIndexed { index, s -> maxByColor(index, s) }
         .map { it.values.fold(1) { a, b -> a * b } }
         .sum()
 }
